@@ -59,21 +59,30 @@
       
           run_equalizer(selector, timeout);
       }
+
+      function set_cols_height(selector, timeout) {
+      	var colHeight = Math.round($(selector).parent().height() * Math.random());
+      	$(selector).animate({ // Изменяем высоту произвольно
+      		height: colHeight
+      	}, timeout / 2,
+      	   'linear',
+      	   function() { // Возвращаем высоту обратно
+      	   	$(selector).animate({
+      	   		height: selector.parent().height() / 2
+      	   	}, timeout / 2,
+      	   	   'linear',
+      	   	   function() {
+      	   	   	set_cols_height($(this), timeout);
+      	   	   }
+      	   	)
+      	   }
+      	)
+      }
       
       function run_equalizer (selector, timeout) {
           $(selector + ' span').each(function (i) {
-              var colHeight = Math.round($(selector).height() * Math.random());
-              $(this).height(colHeight);
+          	set_cols_height($(this), timeout);
           });
-      
-          $(selector + ' span').animate(
-              {height: $(selector).height()/2},
-              timeout,
-              'linear',
-              function () {
-                  run_equalizer(selector, timeout);
-              }
-          );
       }
       
       window.onload = function () {
