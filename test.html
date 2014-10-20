@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Equalizer</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="Equalizer.js"></script>
     <style>
         .equalizer-wrapper {
             float: left;
@@ -27,66 +29,20 @@
         }
     </style>
     <script>
-        function setEqualizer(selector, timeout, colWidth) {
-            if (!colWidth) {
-                colWidth = 1;
-            }
-            $(selector).css({
-                verticalAlign: 'bottom',
-                lineHeight: $(selector).height() + 'px'
+        $(document).ready(function() {
+            $('#eq_1 .equalizer').setupEqualizer({
+                timeout: 1000,
+                colWidth: 2
             });
-
-            // Кол-во столбиков
-            var colQuantity = Math.ceil($(selector).width() / colWidth);
-            var cols = new Array(colQuantity);
-            for (var i = 0; i < cols.length; i++) {
-                var span = $('<span/>').appendTo(selector);
-                span.css({
-                    verticalAlign: 'bottom',
-                    display: 'inline-block',
-
-                    fontSize: 0,
-                    lineHeight: 0,
-
-                    width: colWidth,
-                    background: 'pink',
-                    borderTop: '2px solid red'
-                });
-            }
-
-            run_equalizer(selector, timeout);
-        }
-
-        function set_cols_height(selector, timeout) {
-            var colHeight = Math.round($(selector).parent().height() * Math.random());
-            $(selector).animate({ // Изменяем высоту произвольно
-                    height: colHeight
-                }, timeout / 2,
-                'linear',
-                function() { // Возвращаем высоту обратно
-                    $(selector).animate({
-                            height: selector.parent().height() / 2
-                        }, timeout / 2,
-                        'linear',
-                        function() {
-                            set_cols_height($(this), timeout);
-                        }
-                    )
-                }
-            )
-        }
-
-        function run_equalizer(selector, timeout) {
-            $(selector + ' span').each(function(i) {
-                set_cols_height($(this), timeout);
+            $('#eq_2 .equalizer').setupEqualizer({
+                timeout: 1000,
+                colWidth: 2
             });
-        }
-
-        window.onload = function() {
-            setEqualizer('#eq_1 .equalizer', 1000, 2);
-            setEqualizer('#eq_2 .equalizer', 1000, 2);
-            setEqualizer('#eq_3 .equalizer', 1000, 2);
-        }
+            $('#eq_3 .equalizer').setupEqualizer({
+                timeout: 1000,
+                colWidth: 2
+            });
+        })
     </script>
 </head>
 
